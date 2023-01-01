@@ -158,8 +158,10 @@ class ComicVineTalker(ComicTalker):
     default_api_url = "https://comicvine.gamespot.com/api"
 
     # Settings
+    # TODO Use settings name comicvine_cv_url etc. so updated settings propagate
     api_url: str = ""
     api_key: str = ""
+    # TODO Need to reflect settings names so settingswindow can change class vars or reinit object?
     series_match_thresh: int = 90
     remove_html_tables: bool = False
     use_series_start_as_volume: bool = False
@@ -245,7 +247,9 @@ class ComicVineTalker(ComicTalker):
 
     def check_api_key(self, key: str, url: str) -> bool:
         if not url:
-            url = self.api_url
+            url = self.default_api_url
+        if not key:
+            key = self.default_api_key
         try:
             tmp_url = urlsplit(url)
             if tmp_url.path and tmp_url.path[-1] != "/":
@@ -255,7 +259,7 @@ class ComicVineTalker(ComicTalker):
 
             cv_response: CVResult = requests.get(
                 test_url,
-                headers={"user-agent": "comictagger/" + self.version},
+                headers={"user-agent": "comictagger/key_test"},
                 params={"api_key": key, "format": "json", "field_list": "name"},
             ).json()
 

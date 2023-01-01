@@ -153,8 +153,9 @@ class App:
         # TODO Have option to save passed in config options and quit?
 
         # TODO Temp talker loader option
-        talker = "comicvine"
-        talker = "mangaupdates"
+        # talker = "comicvine"
+        # talker = "mangaupdates"
+        talker = self.options[0].talkers_general_source
 
         try:
             talker_api = ct_api.get_comic_talker(talker)(  # type: ignore[call-arg]
@@ -179,4 +180,4 @@ class App:
             except Exception:
                 logger.exception("CLI mode failed")
         else:
-            gui.open_tagger_window(talker_api, self.options, error)
+            gui.open_tagger_window(talker_api, self.talker_plugins, self.options, error)

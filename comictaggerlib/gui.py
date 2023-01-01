@@ -83,7 +83,10 @@ except ImportError as e:
 
 
 def open_tagger_window(
-    talker_api: ComicTalker, options: settngs.Config[settngs.Namespace], error: tuple[str, bool] | None
+    talker_api: ComicTalker,
+    talker_plugins: dict,
+    options: settngs.Config[settngs.Namespace],
+    error: tuple[str, bool] | None,
 ) -> None:
     os.environ["QtWidgets.QT_AUTO_SCREEN_SCALE_FACTOR"] = "1"
     args = []
@@ -125,7 +128,7 @@ def open_tagger_window(
         QtWidgets.QApplication.processEvents()
 
     try:
-        tagger_window = TaggerWindow(options[0].runtime_files, options, talker_api)
+        tagger_window = TaggerWindow(options[0].runtime_files, options, talker_api, talker_plugins)
         tagger_window.setWindowIcon(QtGui.QIcon(str(graphics_path / "app.png")))
         tagger_window.show()
 

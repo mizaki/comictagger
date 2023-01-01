@@ -81,6 +81,7 @@ class TaggerWindow(QtWidgets.QMainWindow):
         file_list: list[str],
         options: settngs.Config,
         talker_api: ComicTalker,
+        talker_plugins: dict,
         parent: QtWidgets.QWidget | None = None,
     ) -> None:
         super().__init__(parent)
@@ -88,6 +89,7 @@ class TaggerWindow(QtWidgets.QMainWindow):
         uic.loadUi(ui_path / "taggerwindow.ui", self)
         self.options = options
         self.talker_api = talker_api
+        self.talker_plugins = talker_plugins
         self.log_window = self.setup_logger()
 
         # prevent multiple instances
@@ -1369,7 +1371,7 @@ Have fun!
 
     def show_settings(self) -> None:
 
-        settingswin = SettingsWindow(self, self.options, self.talker_api)
+        settingswin = SettingsWindow(self, self.options, self.talker_api, self.talker_plugins)
         settingswin.setModal(True)
         settingswin.exec()
         settingswin.result()
@@ -2070,7 +2072,7 @@ Have fun!
             "File Rename", "If you rename files now, unsaved data in the form will be lost.  Are you sure?"
         ):
 
-            dlg = RenameWindow(self, ca_list, self.load_data_style, self.options, self.talker_api)
+            dlg = RenameWindow(self, ca_list, self.load_data_style, self.options, self.talker_api, self.talker_plugins)
             dlg.setModal(True)
             if dlg.exec() and self.comic_archive is not None:
                 self.fileSelectionList.update_selected_rows()

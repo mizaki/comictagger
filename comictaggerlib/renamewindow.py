@@ -40,6 +40,7 @@ class RenameWindow(QtWidgets.QDialog):
         data_style: int,
         options: settngs.Config,
         talker_api: ComicTalker,
+        talker_plugins: dict,
     ) -> None:
         super().__init__(parent)
 
@@ -56,6 +57,7 @@ class RenameWindow(QtWidgets.QDialog):
 
         self.options = options
         self.talker_api = talker_api
+        self.talker_plugins = talker_plugins
         self.comic_archive_list = comic_archive_list
         self.data_style = data_style
         self.rename_list: list[str] = []
@@ -167,7 +169,7 @@ class RenameWindow(QtWidgets.QDialog):
         self.twList.setSortingEnabled(True)
 
     def modify_settings(self) -> None:
-        settingswin = SettingsWindow(self, self.options, self.talker_api)
+        settingswin = SettingsWindow(self, self.options, self.talker_api, self.talker_plugins)
         settingswin.setModal(True)
         settingswin.show_rename_tab()
         settingswin.exec()
